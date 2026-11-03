@@ -20,15 +20,19 @@
       "types": "./lib/types/index.d.ts",
       "default": "./lib/index.js"
     },
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./icon.svg",
     "./package.json": "./package.json"
   },
   "files": [
     "lib",
+    "locale/*.json",
+    "icon.svg",
     "README.md"
   ],
   "engines": {
     "node": ">=22.19.0",
-    "dsh": "^0.2.1"
+    "dsh": "^0.2.1-rc.3"
   },
   "publishConfig": {
     "access": "public"
@@ -38,6 +42,12 @@
     "clean": "rm -rf lib *.tsbuildinfo"
   },
   "peerDependencies": {
+    "@deepseek-ai/cordis": "^4.0.5",
+    "@deepseek-ai/dsh-subagent": "^0.2.1-rc.3",
+    "@deepseek-ai/dsh-tools": "^0.2.1-rc.3",
+    "@deepseek-ai/schemastery": "^3.18.5"
+  },
+  "devDependencies": {
     "@deepseek-ai/cordis": "~4.0.6-alpha.1",
     "@deepseek-ai/dsh-subagent": "0.2.2-alpha.2",
     "@deepseek-ai/dsh-tools": "0.2.2-alpha.2",

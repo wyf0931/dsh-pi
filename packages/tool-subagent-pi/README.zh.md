@@ -24,9 +24,13 @@ kind: "package-reference"
 
 ## 安装
 
+最简单的方式是使用 [`dsh-pi` 插件包](../bundle/README.zh.md)，它会一起安装本工具和 [`pi` 提供方](../subagent-pi/README.zh.md)。手动组合时：
+
 ```sh
 pnpm add dsh-tool-subagent-pi
 ```
+
+本包声明 `engines.dsh: ^0.2.1-rc.3`；其 DSH 对等依赖由宿主提供。
 
 ## 组合
 

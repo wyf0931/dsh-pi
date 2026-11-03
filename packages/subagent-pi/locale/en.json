@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Pi Subagent",
+    "description": "Register the Pi coding agent as a one-shot subagent provider that runs in the DSH process."
+  }
+}

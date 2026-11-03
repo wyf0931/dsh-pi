@@ -34,6 +34,7 @@ it.skipIf(process.env.DSH_PI_E2E !== '1')(
     await ctx.plugin(piProvider, {
       providerName: 'pi-live',
       timeoutMs: 120_000,
+      ...(process.env.DSH_PI_E2E_MODEL === undefined ? {} : { model: process.env.DSH_PI_E2E_MODEL }),
     })
     const parent = await externalTestParent(ctx, root)
     const provider = ctx.subagents.getProvider('pi-live')

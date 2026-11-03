@@ -24,9 +24,13 @@ Mount this package to expose Pi delegation to the model. Mount [`dsh-subagent-pi
 
 ## Install
 
+The easiest path is the [`dsh-pi` bundle](../bundle/README.md), which installs this tool and the [`pi` provider](../subagent-pi/README.md) together. To compose manually:
+
 ```sh
 pnpm add dsh-tool-subagent-pi
 ```
+
+The package declares `engines.dsh: ^0.2.1-rc.3`; its DSH peers are host-provided.
 
 ## Compose
 

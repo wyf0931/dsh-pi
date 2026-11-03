@@ -1,0 +1,10 @@
+- insert:
+    - id: subagent-pi
+      name: dsh-pi/subagent
+      config:
+        providerName: pi
+    - id: tool-subagent-pi
+      name: dsh-pi/tool
+      config:
+        providerName: pi
+        toolName: delegate_pi

@@ -1,0 +1,46 @@
+{
+  "name": "dsh-tool-subagent-pi",
+  "version": "0.1.0-alpha.1",
+  "description": "Model-facing tool that delegates a self-contained task to the Pi subagent provider.",
+  "keywords": [
+    "dsh",
+    "deepseek-harness",
+    "pi",
+    "coding-agent",
+    "tool",
+    "cordis-plugin"
+  ],
+  "license": "MIT",
+  "author": "dsh-pi contributors",
+  "type": "module",
+  "main": "./lib/index.js",
+  "types": "./lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=22.19.0",
+    "dsh": "^0.2.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsc -b",
+    "clean": "rm -rf lib *.tsbuildinfo"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.6-alpha.1",
+    "@deepseek-ai/dsh-subagent": "0.2.2-alpha.2",
+    "@deepseek-ai/dsh-tools": "0.2.2-alpha.2",
+    "@deepseek-ai/schemastery": "~3.18.6-alpha.1"
+  }
+}

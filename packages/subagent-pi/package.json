@@ -1,0 +1,51 @@
+{
+  "name": "dsh-subagent-pi",
+  "version": "0.1.0-alpha.1",
+  "description": "One-shot subagent provider that delegates tasks to an in-process Pi coding agent.",
+  "keywords": [
+    "dsh",
+    "deepseek-harness",
+    "pi",
+    "coding-agent",
+    "subagent",
+    "cordis-plugin"
+  ],
+  "license": "MIT",
+  "author": "dsh-pi contributors",
+  "type": "module",
+  "main": "./lib/index.js",
+  "types": "./lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=22.19.0",
+    "dsh": "^0.2.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsc -b",
+    "clean": "rm -rf lib *.tsbuildinfo"
+  },
+  "dependencies": {
+    "@deepseek-ai/cordis": "~4.0.6-alpha.1",
+    "@deepseek-ai/dsh-brand": "0.2.2-alpha.2",
+    "@deepseek-ai/dsh-llm": "0.2.2-alpha.2",
+    "@deepseek-ai/dsh-session": "0.2.2-alpha.2",
+    "@deepseek-ai/dsh-subagent": "0.2.2-alpha.2",
+    "@deepseek-ai/dsh-timeout": "0.2.2-alpha.2",
+    "@deepseek-ai/dsh-util-values": "0.2.2-alpha.2",
+    "@deepseek-ai/schemastery": "~3.18.6-alpha.1",
+    "@earendil-works/pi-coding-agent": "1.4.0"
+  }
+}

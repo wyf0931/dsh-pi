@@ -1,0 +1,7 @@
+{
+  "files": [],
+  "references": [
+    { "path": "packages/subagent-pi" },
+    { "path": "packages/tool-subagent-pi" }
+  ]
+}

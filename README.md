@@ -17,7 +17,7 @@ The integration follows the same provider-and-tool seam the DSH community alread
 
 | Package | Role |
 |---|---|
-| [`dsh-pi`](packages/bundle/README.md) | The installable bundle: inserts both rows, with locale metadata and icons |
+| [`dsh-pi`](packages/bundle/README.md) | The installable bundle: inserts both rows, ships the provider's configuration page, locale metadata, and icons |
 | [`dsh-subagent-pi`](packages/subagent-pi/README.md) | Registers a one-shot Pi `SubagentProvider` on the shared subagent service |
 | [`dsh-tool-subagent-pi`](packages/tool-subagent-pi/README.md) | Registers the `delegate_pi` tool the model calls to hand work to Pi |
 
@@ -41,13 +41,15 @@ pnpm build
 dsh plugin --profile <profile> add /absolute/path/to/dsh-pi/packages/bundle
 ```
 
-A linked checkout resolves both rows from the bundle package itself, so no extra profile dependencies are required. After installation the model sees the `delegate_pi` tool. If the profile does not hot-reload bundles, restart DSH.
+A linked checkout resolves both rows and the client configuration page from the bundle package itself, so no extra profile dependencies are required. After installation the model sees the `delegate_pi` tool. If the profile does not hot-reload bundles, restart DSH.
 
 Manual composition remains available: install [`dsh-subagent-pi`](packages/subagent-pi/README.md) and [`dsh-tool-subagent-pi`](packages/tool-subagent-pi/README.md) as profile dependencies and insert rows for both package names.
 
-### Configure the model
+### Configure
 
-The bundle inserts the provider with `providerName: pi` only, so Pi's own default model applies. Override it, or any other provider field, by row id in the profile's `cordis.patch.yml`; `config` is replaced wholesale, so restate every field the row needs:
+Open **Plugins** in the sidebar, select `dsh-pi`, open the **Pi Subagent** row, and click **Configure**. The page edits the model, thinking level, turn timeout, and excluded tools; **Save** writes a profile override and applies it to the next delegation without restarting the provider. `providerName` and `agentDir` remain YAML-only because they identify the provider instance and its Pi home.
+
+The UI writes the same profile layer as a manual `cordis.patch.yml` override, so scripted deployments can keep using the file:
 
 ```yaml
 - id: subagent-pi
@@ -74,7 +76,7 @@ The tool returns a child id immediately; a later completion notice carries Pi's 
 ## Repository
 
 ```
-packages/bundle/            The installable dsh-pi bundle (patch, rows, locale, icons)
+packages/bundle/            The installable dsh-pi bundle (rows, client config page, locale, icons)
 packages/subagent-pi/       The Pi subagent provider plugin
 packages/tool-subagent-pi/  The delegate_pi tool plugin
 ```

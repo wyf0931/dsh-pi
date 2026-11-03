@@ -20,7 +20,7 @@ kind: "package-reference"
 - **一次性、独立上下文。** provider 不声明任何启动时能力（`agentOptions`、`agentPreset`、`outputSchema`、`depthLimit`），也不继承父上下文。每次委派只承载一个文本任务。
 - **Pi 在进程内运行。** provider 动态导入 Pi SDK，每次被接受的委派打开一个会话。不派生 Pi CLI，也不创建 DSH 子会话。
 - **发布后的结果绝不 reject。** 正常回合以 `completed` 结束；Pi 的协作式中止或父取消以 `aborted` 结束；回合失败以 `error` 结束，附带固定的、不含凭证的诊断。释放时会释放 Pi 会话。
-- **配置在加载时读取一次。** Pi 全局配置目录、模型和思考级别来自插件配置，而非每次运行的发现。
+- **部署标识加载时读取，运行时配置每次委派读取。** provider 名称和 Pi 目录来自加载时的插件配置。模型、思考级别、排除工具和超时是 volatile 引用，因此 Plugins 页面 Configure 表单保存的值会在下一次委派生效，无需重新挂载 provider。
 
 ## 安装
 
@@ -40,7 +40,7 @@ pnpm add dsh-subagent-pi
 - name: dsh-subagent-pi
   config:
     providerName: pi
-    model: deepseek/deepseek-chat
+    model: deepseek/deepseek-flash
     effort: medium
 ```
 
@@ -56,6 +56,8 @@ pnpm add dsh-subagent-pi
 | `effort` | Pi 自己的选择 | 思考级别：`off`、`minimal`、`low`、`medium`、`high`、`xhigh`、`max` |
 | `disallowedTools` | `[]` | 每次委派会话中排除的工具名称 |
 | `timeoutMs` | 仅随父取消 | 提示被接受后回合的超时（毫秒） |
+
+`model`、`effort`、`disallowedTools`、`timeoutMs` 是 volatile 字段。[`dsh-pi` 插件包](../bundle/README.zh.md) 为它们注册了 Plugins 页面表单；保存会写入 profile 层并在下一次委派生效。`providerName` 与 `agentDir` 只在加载时读取，保持仅 YAML 配置。
 
 未知模型、Pi 未生效的模型、无法识别的思考级别或 Pi 未生效的思考级别都会在启动时以类型化错误失败。预信任被委派的工作目录不可配置：嵌入会话没有人类回答信任提示。
 

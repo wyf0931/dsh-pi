@@ -20,7 +20,7 @@ Choose this package to let a DSH agent hand self-contained work to Pi. Use [`dsh
 - **One-shot, independent context.** The provider advertises no start-time capabilities (`agentOptions`, `agentPreset`, `outputSchema`, `depthLimit`) and does not inherit the parent's context. A delegation carries exactly one text task.
 - **Pi runs in-process.** The provider imports the Pi SDK dynamically and opens one session per accepted delegation. No Pi CLI is forked and no DSH child session is created.
 - **The published result never rejects.** A normal turn settles as `completed`; Pi's cooperative abort or parent cancellation settles as `aborted`; a turn failure settles as `error` with a fixed, credential-free diagnostic. Disposal disposes the Pi session.
-- **Config is read once at load.** The Pi global config home, model, and thinking level come from the plugin config, not from per-run discovery.
+- **Deployment identity is read once; live run settings are read per delegation.** The provider name and Pi home come from the plugin config at load. Model, thinking level, excluded tools, and timeout are volatile references, so the Plugins page's Configure form applies a saved value to the next delegation without remounting the provider.
 
 ## Install
 
@@ -40,7 +40,7 @@ Mount the package in the `cordis.yml` overlay a `dsh` profile loads:
 - name: dsh-subagent-pi
   config:
     providerName: pi
-    model: deepseek/deepseek-chat
+    model: deepseek/deepseek-flash
     effort: medium
 ```
 
@@ -56,6 +56,8 @@ Pair it with [`dsh-tool-subagent-pi`](../tool-subagent-pi/README.md), whose tool
 | `effort` | Pi's own selection | Thinking level: `off`, `minimal`, `low`, `medium`, `high`, `xhigh`, `max` |
 | `disallowedTools` | `[]` | Tool names excluded from every delegated session |
 | `timeoutMs` | parent cancellation only | Turn deadline in milliseconds after the prompt is accepted |
+
+`model`, `effort`, `disallowedTools`, and `timeoutMs` are volatile. The [`dsh-pi` bundle](../bundle/README.md) registers the Plugins page form for them, and a save writes the profile layer and applies to the next delegation. `providerName` and `agentDir` are read once at load and stay YAML-only.
 
 An unknown model, a model Pi did not apply, an unrecognized thinking level, or a thinking level Pi did not apply fail at startup with a typed error. Pre-trusting the delegated working directory is not configurable: an embedded session has no human to answer a trust prompt.
 

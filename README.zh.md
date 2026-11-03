@@ -17,7 +17,7 @@ kind: "package-group"
 
 | 包 | 角色 |
 |---|---|
-| [`dsh-pi`](packages/bundle/README.zh.md) | 可安装插件包：插入两行，并自带本地化元数据与图标 |
+| [`dsh-pi`](packages/bundle/README.zh.md) | 可安装插件包：插入两行，提供提供方配置页，并自带本地化元数据与图标 |
 | [`dsh-subagent-pi`](packages/subagent-pi/README.zh.md) | 在共享子代理服务上注册一个一次性 Pi `SubagentProvider` |
 | [`dsh-tool-subagent-pi`](packages/tool-subagent-pi/README.zh.md) | 注册 `delegate_pi` 工具，供模型调用把工作交给 Pi |
 
@@ -41,13 +41,15 @@ pnpm build
 dsh plugin --profile <profile> add /absolute/path/to/dsh-pi/packages/bundle
 ```
 
-链接方式的 checkout 会直接从插件包自身解析两行，因此 profile 不需要额外依赖。安装后模型即可看到 `delegate_pi` 工具。如果 profile 不会热加载插件包，请重启 DSH。
+链接方式的 checkout 会直接从插件包自身解析两行和客户端配置页，因此 profile 不需要额外依赖。安装后模型即可看到 `delegate_pi` 工具。如果 profile 不会热加载插件包，请重启 DSH。
 
 手动组合仍然可用：把 [`dsh-subagent-pi`](packages/subagent-pi/README.zh.md) 与 [`dsh-tool-subagent-pi`](packages/tool-subagent-pi/README.zh.md) 安装为 profile 依赖，并为两个包名插入行。
 
-### 配置模型
+### 配置
 
-插件包只以 `providerName: pi` 插入提供方，因此使用 Pi 自己的默认模型。可在 profile 的 `cordis.patch.yml` 中按行 id 覆盖它或任何其他字段；`config` 会被整体替换，因此需要重述该行需要的每个字段：
+打开侧边栏的 **Plugins**，选择 `dsh-pi`，展开 **Pi Subagent** 行并点击 **Configure**。页面可编辑模型、思考级别、回合超时和被排除的工具；**保存** 会写入 profile 覆盖层，并在下一次委派生效，无需重启提供方。`providerName` 与 `agentDir` 只能通过 YAML 配置，因为它们标识提供方实例及其 Pi 目录。
+
+UI 写入与手动 `cordis.patch.yml` 覆盖是同一层 profile 配置，因此脚本化部署仍可继续使用文件：
 
 ```yaml
 - id: subagent-pi
@@ -74,7 +76,7 @@ dsh plugin --profile <profile> add /absolute/path/to/dsh-pi/packages/bundle
 ## 仓库结构
 
 ```
-packages/bundle/            可安装的 dsh-pi 插件包（patch、两行、本地化、图标）
+packages/bundle/            可安装的 dsh-pi 插件包（两行、客户端配置页、本地化、图标）
 packages/subagent-pi/       Pi 子代理 provider 插件
 packages/tool-subagent-pi/  delegate_pi 工具插件
 ```

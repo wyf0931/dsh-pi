@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Pi subagent">
+  <defs>
+    <linearGradient id="pi-subagent-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#4D6BFE"/>
+      <stop offset="1" stop-color="#7C4DFF"/>
+    </linearGradient>
+  </defs>
+  <rect x="4" y="4" width="56" height="56" rx="15" fill="url(#pi-subagent-bg)"/>
+  <path d="M19 23h26M26.5 23v20M37.5 23v20" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round"/>
+  <circle cx="19.5" cy="47" r="3" fill="#fff" opacity="0.9"/>
+  <circle cx="44.5" cy="47" r="3" fill="#fff" opacity="0.9"/>
+  <path d="M23.5 47h17" stroke="#fff" stroke-width="2.2" stroke-linecap="round" opacity="0.55"/>
+</svg>

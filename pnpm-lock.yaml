@@ -111,6 +111,58 @@ importers:
         specifier: ^3.0.0
         version: 3.2.7(@types/node@22.20.5)(jiti@2.7.0)(yaml@2.9.0)
 
+  packages/bundle:
+    dependencies:
+      dsh-subagent-pi:
+        specifier: workspace:^
+        version: link:../subagent-pi
+      dsh-tool-subagent-pi:
+        specifier: workspace:^
+        version: link:../tool-subagent-pi
+
+  packages/subagent-pi:
+    dependencies:
+      '@earendil-works/pi-coding-agent':
+        specifier: 1.4.0
+        version: 1.4.0(@aws-sdk/credential-provider-node@3.972.92)(@smithy/signature-v4@5.7.5)(ws@8.22.1)(zod@4.6.7)
+    devDependencies:
+      '@deepseek-ai/cordis':
+        specifier: ~4.0.6-alpha.1
+        version: 4.0.6-alpha.1(@deepseek-ai/cordis-plugin-include@1.0.11-alpha.1)(@deepseek-ai/cordis-plugin-loader@1.0.7-alpha.1)
+      '@deepseek-ai/dsh-brand':
+        specifier: 0.2.2-alpha.2
+        version: 0.2.2-alpha.2(@deepseek-ai/cordis@4.0.6-alpha.1)
+      '@deepseek-ai/dsh-llm':
+        specifier: 0.2.2-alpha.2
+        version: 0.2.2-alpha.2(@deepseek-ai/cordis@4.0.6-alpha.1)
+      '@deepseek-ai/dsh-session':
+        specifier: 0.2.2-alpha.2
+        version: 0.2.2-alpha.2(@deepseek-ai/cordis@4.0.6-alpha.1)(@deepseek-ai/dsh-scope@0.2.2-alpha.2(@deepseek-ai/cordis@4.0.6-alpha.1))
+      '@deepseek-ai/dsh-subagent':
+        specifier: 0.2.2-alpha.2
+        version: 0.2.2-alpha.2(75f9a56bd871fd0f1929d5d55c4cf822)
+      '@deepseek-ai/dsh-timeout':
+        specifier: 0.2.2-alpha.2
+        version: 0.2.2-alpha.2(@deepseek-ai/cordis@4.0.6-alpha.1)
+      '@deepseek-ai/schemastery':
+        specifier: ~3.18.6-alpha.1
+        version: 3.18.6-alpha.1
+
+  packages/tool-subagent-pi:
+    devDependencies:
+      '@deepseek-ai/cordis':
+        specifier: ~4.0.6-alpha.1
+        version: 4.0.6-alpha.1(@deepseek-ai/cordis-plugin-include@1.0.11-alpha.1)(@deepseek-ai/cordis-plugin-loader@1.0.7-alpha.1)
+      '@deepseek-ai/dsh-subagent':
+        specifier: 0.2.2-alpha.2
+        version: 0.2.2-alpha.2(75f9a56bd871fd0f1929d5d55c4cf822)
+      '@deepseek-ai/dsh-tools':
+        specifier: 0.2.2-alpha.2
+        version: 0.2.2-alpha.2(d570a50fd9051dfa7084c71da173b036)
+      '@deepseek-ai/schemastery':
+        specifier: ~3.18.6-alpha.1
+        version: 3.18.6-alpha.1
+
 packages:
 
   '@anthropic-ai/sdk@0.129.0':

@@ -24,11 +24,13 @@ kind: "package-reference"
 
 ## 安装
 
+最简单的方式是使用 [`dsh-pi` 插件包](../bundle/README.zh.md)，它会一起安装本提供方和 [`delegate_pi`](../tool-subagent-pi/README.zh.md) 工具。手动组合时：
+
 ```sh
 pnpm add dsh-subagent-pi
 ```
 
-本包依赖 `@earendil-works/pi-coding-agent`，并把 DSH 能力缝声明为对等依赖；Pi 1.4.0 是本发行版验证过的版本。
+本包依赖 `@earendil-works/pi-coding-agent`；Pi 1.4.0 是本发行版验证过的版本。DSH 能力缝由宿主提供，本包声明 `engines.dsh: ^0.2.1-rc.3`。
 
 ## 组合
 

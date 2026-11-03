@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Pi 委派工具",
+    "description": "添加 delegate_pi 工具，把独立的编码任务交给 Pi 编码代理执行。"
+  }
+}

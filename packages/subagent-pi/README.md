@@ -24,11 +24,13 @@ Choose this package to let a DSH agent hand self-contained work to Pi. Use [`dsh
 
 ## Install
 
+The easiest path is the [`dsh-pi` bundle](../bundle/README.md), which installs this provider and the [`delegate_pi`](../tool-subagent-pi/README.md) tool together. To compose manually:
+
 ```sh
 pnpm add dsh-subagent-pi
 ```
 
-The package peers on `@earendil-works/pi-coding-agent`; Pi 1.4.0 is the version this release was verified against.
+The package depends on `@earendil-works/pi-coding-agent`; Pi 1.4.0 is the version this release was verified against. Its DSH peers are host-provided and the package declares `engines.dsh: ^0.2.1-rc.3`.
 
 ## Compose
 

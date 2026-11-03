@@ -35,41 +35,64 @@ export interface Config {
   timeoutMs?: number
 }
 
-export const Config: z<Config> = z.object({
+export const Config = z.object({
   providerName: z.string().min(1).default(DEFAULT_PROVIDER_NAME),
   agentDir: z.string().min(1),
-  model: z.string().min(1),
-  effort: z.string().min(1),
-  disallowedTools: z.array(z.string().min(1)).default([]),
-  timeoutMs: z.number().min(1).max(MAX_TIMER_DELAY_MS),
+  // Volatile fields appear in the Plugins page's configuration form and apply
+  // to the next delegation without remounting this provider.
+  model: z.string().min(1).volatile(),
+  effort: z.string().min(1).volatile(),
+  disallowedTools: z.array(z.string().min(1)).default([]).volatile(),
+  timeoutMs: z.number().min(1).max(MAX_TIMER_DELAY_MS).volatile(),
 })
+
+/**
+ * The resolved config the Loader passes to `apply`: every volatile field is a
+ * stable reference whose `get()` returns the value currently saved in the
+ * profile's configuration layer.
+ */
+export type ResolvedConfig = ReturnType<typeof Config>
+
+/**
+ * Read the live deployment settings for one delegation. Every value is read at
+ * start time so a settings-form write applies to the next delegation.
+ * @param config - the plugin config carrying volatile references.
+ * @returns the resolved one-shot run settings.
+ */
+function readSpec(config: ResolvedConfig): PiRunSpec {
+  const model = config.model?.get()
+  const effort = config.effort?.get()
+  const timeoutMs = config.timeoutMs?.get()
+  if (timeoutMs !== undefined && timeoutMs > MAX_TIMER_DELAY_MS) {
+    throw new Error(`subagent-pi: timeoutMs must be no greater than ${MAX_TIMER_DELAY_MS}`)
+  }
+  return {
+    ...(config.agentDir === undefined ? {} : { agentDir: config.agentDir }),
+    ...(model === undefined ? {} : { model }),
+    ...(effort === undefined ? {} : { effort }),
+    disallowedTools: config.disallowedTools?.get() ?? [],
+    ...(timeoutMs === undefined ? {} : { timeoutMs }),
+  }
+}
 
 /**
  * Register one in-process Pi provider with the shared subagent service.
  * @param ctx - context carrying the shared subagent service.
  * @param config - provider name, Pi home, model and deployment settings.
  */
-export function apply(ctx: Context, config: Config): void {
+export function apply(ctx: Context, config: ResolvedConfig): void {
   const providerName = config.providerName ?? DEFAULT_PROVIDER_NAME
-  const timeoutMs = config.timeoutMs
-  if (timeoutMs !== undefined && timeoutMs > MAX_TIMER_DELAY_MS) {
-    throw new Error(`subagent-pi: timeoutMs must be no greater than ${MAX_TIMER_DELAY_MS}`)
-  }
-  const spec: PiRunSpec = {
-    ...(config.agentDir === undefined ? {} : { agentDir: config.agentDir }),
-    ...(config.model === undefined ? {} : { model: config.model }),
-    ...(config.effort === undefined ? {} : { effort: config.effort }),
-    disallowedTools: config.disallowedTools ?? [],
-    ...(timeoutMs === undefined ? {} : { timeoutMs }),
+  const spec = (): PiRunSpec => ({
+    ...readSpec(config),
     onError: (error) => {
       ctx.logger.warn('subagent-pi "%s": %s', providerName, error.message)
     },
-  }
+  })
   const provider: SubagentProvider = {
     name: providerName,
     capabilities: NO_START_CAPABILITIES,
     inheritsParentContext: false,
-    start: request => startPiRun(request, spec),
+    start: request => startPiRun(request, spec()),
   }
   ctx.subagents.registerProvider(provider)
 }

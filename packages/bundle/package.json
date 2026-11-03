@@ -1,7 +1,7 @@
 {
   "name": "dsh-pi",
-  "version": "0.1.0-alpha.1",
-  "description": "Installable DeepSeek Harness bundle for the Pi coding agent: registers the pi subagent provider and the delegate_pi tool.",
+  "version": "0.1.0-alpha.2",
+  "description": "Installable DeepSeek Harness bundle for the Pi coding agent: registers the pi subagent provider, the delegate_pi tool, and a configuration page for the provider.",
   "keywords": [
     "dsh",
     "deepseek-harness",
@@ -14,16 +14,23 @@
   "author": "dsh-pi contributors",
   "type": "module",
   "exports": {
+    ".": {
+      "types": "./subagent.d.ts",
+      "default": "./subagent.js"
+    },
     "./subagent": {
       "types": "./subagent.d.ts",
       "default": "./subagent.js"
     },
-    "./subagent/locale/*.json": "./subagent/locale/*.json",
-    "./subagent/icon": "./subagent/icon.svg",
     "./tool": {
       "types": "./tool.d.ts",
       "default": "./tool.js"
     },
+    "./client": "./client.js",
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./icon.svg",
+    "./subagent/locale/*.json": "./subagent/locale/*.json",
+    "./subagent/icon": "./subagent/icon.svg",
     "./tool/locale/*.json": "./tool/locale/*.json",
     "./tool/icon": "./tool/icon.svg",
     "./package.json": "./package.json"
@@ -34,6 +41,9 @@
     "subagent.d.ts",
     "tool.js",
     "tool.d.ts",
+    "client.js",
+    "locale",
+    "icon.svg",
     "subagent",
     "tool",
     "README.md",
@@ -49,6 +59,13 @@
   "dsh": {
     "bundle": {
       "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "immediately": true,
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-plugin-manager"
+      ]
     }
   },
   "dependencies": {

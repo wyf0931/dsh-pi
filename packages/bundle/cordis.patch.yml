@@ -1,6 +1,6 @@
 - insert:
     - id: subagent-pi
-      name: dsh-pi/subagent
+      name: dsh-pi
       config:
         providerName: pi
     - id: tool-subagent-pi
